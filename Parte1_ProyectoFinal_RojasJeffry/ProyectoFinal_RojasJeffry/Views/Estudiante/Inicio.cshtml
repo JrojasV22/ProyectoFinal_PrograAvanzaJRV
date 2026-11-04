@@ -1,0 +1,45 @@
+@model InicioEstudianteViewModel
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<h1 class="titulo">¡Bienvenido(a), @Model.Nombre!</h1>
+<p class="text-muted">Carrera: @Model.Carrera &nbsp;·&nbsp; @Model.Cuatrimestre</p>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card-dato">
+            <div class="numero">@Model.CursosMatriculados</div>
+            <div class="etiqueta">Cursos matriculados</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-dato">
+            <div class="numero">@Model.Creditos</div>
+            <div class="etiqueta">Créditos</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-dato">
+            <div class="numero">@Model.CursosDisponibles</div>
+            <div class="etiqueta">Cursos disponibles</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card-panel h-100">
+            <h2 class="subtitulo">Matricular cursos</h2>
+            <p>Vea los cursos de su carrera, fíltrelos y matricule los que necesite.</p>
+            <span class="btn btn-primario disabled" title="Disponible en la entrega final">Ver cursos disponibles</span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card-panel h-100">
+            <h2 class="subtitulo">Mi matrícula</h2>
+            <p>Consulte sus cursos, horario y créditos; retire cursos si lo necesita.</p>
+            <span class="btn btn-secundario disabled" title="Disponible en la entrega final">Ver mi matrícula</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+@{
+    // Menú superior. Cambia según el rol del usuario (Estudiante o Administrador).
+    var controlador = ViewContext.RouteData.Values["controller"]?.ToString();
+    var accion = ViewContext.RouteData.Values["action"]?.ToString();
+    string Activo(string c, string? a = null) => controlador == c && (a == null || accion == a) ? "active" : "";
+    var nombre = User.FindFirst("NombreCompleto")?.Value ?? User.Identity?.Name;
+}
+<nav class="navbar navbar-expand-lg navbar-dark menu-principal">
+    <div class="container">
+        @if (User.IsInRole(Roles.Administrador))
+        {
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">MatrículaU · Admin</a>
+        }
+        else
+        {
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">MatrículaU</a>
+        }
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                    aria-controls="menu" aria-expanded="false" aria-label="Mostrar menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav me-auto">
+                    @if (User.IsInRole(Roles.Estudiante))
+                    {
+                        <li class="nav-item"><a class="nav-link @Activo("Estudiante")" asp-controller="Estudiante" asp-action="Inicio">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link @Activo("Home", "Carreras")" asp-controller="Home" asp-action="Carreras">Carreras</a></li>
+                        <li class="nav-item"><span class="nav-link disabled" title="Disponible en la entrega final">Cursos disponibles</span></li>
+                        <li class="nav-item"><span class="nav-link disabled" title="Disponible en la entrega final">Mi matrícula</span></li>
+                    }
+                    else if (User.IsInRole(Roles.Administrador))
+                    {
+                        <li class="nav-item"><a class="nav-link @Activo("Home", "Index")" asp-controller="Home" asp-action="Index">Panel</a></li>
+                    }
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="navbar-text text-white small">@nombre</span>
+                    <form asp-controller="Cuenta" asp-action="Logout" method="post" class="m-0">
+                        <button type="submit" class="btn btn-link nav-link p-0 text-white small">Cerrar sesión</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</nav>

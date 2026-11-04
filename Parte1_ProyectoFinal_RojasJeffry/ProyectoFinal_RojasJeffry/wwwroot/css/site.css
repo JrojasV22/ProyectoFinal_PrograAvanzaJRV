@@ -1,0 +1,52 @@
+/* Estilos del sistema MatrículaU (colores del prototipo del Avance 1) */
+:root {
+    --azul: #1F2A6B;
+    --dorado: #F2B705;
+    --fondo: #F7F8FB;
+    --panel: #EEF1FA;
+    --borde: #C9CED8;
+    --texto: #222222;
+    --gris: #6B7280;
+    --verde: #1E8449;
+}
+
+html { font-size: 15px; position: relative; min-height: 100%; }
+body { background: var(--fondo); color: var(--texto); }
+
+/* Menú superior */
+.menu-principal { background: var(--azul); }
+.menu-principal .nav-link { color: #D6DAEA; }
+.menu-principal .nav-link.active,
+.menu-principal .nav-link:hover { color: var(--dorado); font-weight: 600; }
+.menu-principal .nav-link.disabled { color: #8C93B5; }
+
+/* Títulos */
+.titulo { color: var(--azul); font-size: 1.6rem; font-weight: 700; }
+.subtitulo { color: var(--azul); font-size: 1.15rem; font-weight: 700; }
+.texto-ajax { color: var(--verde); }
+
+/* Tarjetas */
+.card-panel { background: #fff; border: 1px solid var(--borde); padding: 1.5rem; }
+.card-dato { background: #fff; border: 1px solid var(--borde); padding: 1rem 1.25rem; }
+.card-dato .numero { color: var(--azul); font-size: 2.2rem; font-weight: 700; line-height: 1.1; }
+.card-dato .etiqueta { color: var(--gris); }
+
+/* Botones */
+.btn-primario { background: var(--azul); border-color: var(--azul); color: #fff; font-weight: 600; }
+.btn-primario:hover { background: #172057; color: #fff; }
+.btn-secundario { background: #fff; border-color: var(--azul); color: var(--azul); font-weight: 600; }
+.btn-secundario:hover { background: var(--panel); color: var(--azul); }
+.btn-dorado { background: var(--dorado); border-color: var(--dorado); color: var(--texto); font-weight: 600; }
+.btn-dorado:hover { background: #d9a404; color: var(--texto); }
+
+/* Tablas */
+.tabla-sistema { background: #fff; border: 1px solid var(--borde); }
+.tabla-sistema thead th { background: var(--azul); color: #fff; font-weight: 600; }
+.tabla-sistema tbody tr:nth-child(even) { background: #F3F5FA; }
+
+/* Lista de cursos cargada por AJAX en el registro */
+.lista-cursos { background: #F3F5FA; border: 1px solid var(--borde); padding: .75rem 1rem; min-height: 120px; }
+
+/* Paginación */
+.pagination .page-link { color: var(--azul); }
+.pagination .active .page-link { background: var(--azul); border-color: var(--azul); color: #fff; }

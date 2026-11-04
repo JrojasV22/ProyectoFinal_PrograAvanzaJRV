@@ -1,0 +1,37 @@
+@model List<Carrera>
+@{
+    ViewData["Title"] = "Carreras disponibles";
+}
+
+<h1 class="titulo">Carreras disponibles</h1>
+<p class="text-muted">Carreras que ofrece la universidad y cantidad de cursos de cada una.</p>
+
+<div class="table-responsive">
+    <table class="table tabla-sistema align-middle">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Carrera</th>
+                <th>Descripción</th>
+                <th class="text-center">Cursos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var carrera in Model)
+            {
+                <tr>
+                    <td>@carrera.Codigo</td>
+                    <td>@carrera.Nombre</td>
+                    <td>@carrera.Descripcion</td>
+                    <td class="text-center">@carrera.Cursos.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (User.Identity?.IsAuthenticated != true)
+{
+    <a class="btn btn-primario" asp-controller="Cuenta" asp-action="Registro">Registrarme</a>
+    <a class="btn btn-secundario ms-2" asp-controller="Cuenta" asp-action="Login">Iniciar sesión</a>
+}

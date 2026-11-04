@@ -1,0 +1,101 @@
+@model RegistroViewModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div class="card-panel">
+    <h1 class="titulo mb-4">Crear cuenta</h1>
+
+    <form asp-action="Registro" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label asp-for="Cedula" class="form-label fw-bold"></label>
+                <input asp-for="Cedula" class="form-control" placeholder="1-2345-6789" />
+                <span asp-validation-for="Cedula" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="NombreCompleto" class="form-label fw-bold"></label>
+                <input asp-for="NombreCompleto" class="form-control" />
+                <span asp-validation-for="NombreCompleto" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Correo" class="form-label fw-bold"></label>
+                <input asp-for="Correo" class="form-control" placeholder="correo@ejemplo.com" autocomplete="username" />
+                <span asp-validation-for="Correo" class="text-danger small"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Contrasena" class="form-label fw-bold"></label>
+                <input asp-for="Contrasena" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Contrasena" class="text-danger small"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="ConfirmarContrasena" class="form-label fw-bold"></label>
+                <input asp-for="ConfirmarContrasena" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="ConfirmarContrasena" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="CarreraId" class="form-label fw-bold"></label>
+                <select asp-for="CarreraId" asp-items="ViewBag.Carreras" class="form-select" id="CarreraId">
+                    <option value="">-- Seleccione una carrera --</option>
+                </select>
+                <span asp-validation-for="CarreraId" class="text-danger small"></span>
+                <div class="form-text">La contraseña debe tener al menos 6 caracteres, una minúscula y un número.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold texto-ajax">Cursos de esta carrera (se cargan por AJAX)</label>
+                <div id="cursosCarrera" class="lista-cursos">
+                    <span class="text-muted">Seleccione una carrera para ver sus cursos.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+            <a asp-action="Login" class="btn btn-secundario">Cancelar</a>
+            <button type="submit" class="btn btn-primario">Registrarme</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // HU-02: al cambiar la carrera se cargan sus cursos con AJAX, sin recargar la página.
+        function cargarCursos() {
+            var carreraId = $('#CarreraId').val();
+            var contenedor = $('#cursosCarrera');
+
+            if (!carreraId) {
+                contenedor.html('<span class="text-muted">Seleccione una carrera para ver sus cursos.</span>');
+                return;
+            }
+
+            contenedor.html('<span class="text-muted">Cargando cursos...</span>');
+
+            $.getJSON('/api/cursos', { carreraId: carreraId })
+                .done(function (cursos) {
+                    if (cursos.length === 0) {
+                        contenedor.html('<span class="text-muted">Esta carrera todavía no tiene cursos.</span>');
+                        return;
+                    }
+                    var lista = $('<ul class="list-unstyled mb-0"></ul>');
+                    $.each(cursos, function (i, curso) {
+                        $('<li></li>')
+                            .append($('<strong></strong>').text(curso.codigo))
+                            .append(document.createTextNode('  ' + curso.nombre + ' (' + curso.creditos + ' créditos)'))
+                            .appendTo(lista);
+                    });
+                    contenedor.empty().append(lista);
+                })
+                .fail(function () {
+                    contenedor.html('<span class="text-danger">No se pudieron cargar los cursos.</span>');
+                });
+        }
+
+        $('#CarreraId').on('change', cargarCursos);
+        $(cargarCursos); // si el formulario vuelve con errores, se cargan los cursos de la carrera elegida
+    </script>
+}
