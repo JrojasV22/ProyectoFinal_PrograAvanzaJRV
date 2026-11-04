@@ -1,0 +1,19 @@
+@model Docente
+@{
+    ViewData["Title"] = "Nuevo docente";
+}
+
+<h1 class="titulo mb-3">Nuevo docente</h1>
+<div class="card-panel">
+    <form asp-action="Create" method="post">
+        <partial name="_Formulario" model="Model" />
+        <div class="d-flex justify-content-end gap-2 mt-4">
+            <a asp-action="Index" class="btn btn-secundario">Volver a la lista</a>
+            <button type="submit" class="btn btn-primario">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

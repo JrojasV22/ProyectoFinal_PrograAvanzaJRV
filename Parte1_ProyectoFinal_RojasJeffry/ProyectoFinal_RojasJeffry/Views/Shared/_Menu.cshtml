@@ -33,7 +33,11 @@
                     }
                     else if (User.IsInRole(Roles.Administrador))
                     {
-                        <li class="nav-item"><a class="nav-link @Activo("Home", "Index")" asp-controller="Home" asp-action="Index">Panel</a></li>
+                        <li class="nav-item"><a class="nav-link @Activo("Admin")" asp-controller="Admin" asp-action="Index">Panel</a></li>
+                        <li class="nav-item"><a class="nav-link @Activo("Carreras")" asp-controller="Carreras" asp-action="Index">Carreras</a></li>
+                        <li class="nav-item"><a class="nav-link @Activo("Cursos")" asp-controller="Cursos" asp-action="Index">Cursos</a></li>
+                        <li class="nav-item"><a class="nav-link @Activo("Docentes")" asp-controller="Docentes" asp-action="Index">Docentes</a></li>
+                        <li class="nav-item"><span class="nav-link disabled" title="Disponible en la entrega final">Matrículas</span></li>
                     }
                 </ul>
                 <div class="d-flex align-items-center gap-3">

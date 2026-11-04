@@ -1,0 +1,31 @@
+@model Docente
+@{
+    ViewData["Title"] = "Eliminar docente";
+    var tieneCursos = Model.Cursos.Any();
+}
+
+<h1 class="titulo mb-3">Eliminar docente</h1>
+<div class="card-panel">
+    <dl class="row">
+        <dt class="col-sm-3">Cédula</dt><dd class="col-sm-9">@Model.Cedula</dd>
+        <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9">@Model.NombreCompleto</dd>
+        <dt class="col-sm-3">Correo</dt><dd class="col-sm-9">@Model.Correo</dd>
+        <dt class="col-sm-3">Especialidad</dt><dd class="col-sm-9">@Model.Especialidad</dd>
+        <dt class="col-sm-3">Cursos asignados</dt><dd class="col-sm-9">@Model.Cursos.Count</dd>
+    </dl>
+
+    @if (tieneCursos)
+    {
+        <div class="alert alert-warning">⚠ No se puede eliminar un docente que tenga cursos asignados.</div>
+        <a asp-action="Index" class="btn btn-secundario">Volver a la lista</a>
+    }
+    else
+    {
+        <p class="fw-bold">¿Seguro que desea eliminar este docente?</p>
+        <form asp-action="Delete" method="post" class="d-flex gap-2">
+            <input type="hidden" asp-for="Id" />
+            <a asp-action="Index" class="btn btn-secundario">Cancelar</a>
+            <button type="submit" class="btn btn-danger fw-bold">Sí, eliminar</button>
+        </form>
+    }
+</div>

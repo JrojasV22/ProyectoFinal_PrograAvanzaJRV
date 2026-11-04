@@ -1,0 +1,33 @@
+@model Carrera
+@{
+    ViewData["Title"] = "Eliminar carrera";
+    var totalCursos = (int)(ViewBag.TotalCursos ?? 0);
+    var totalEstudiantes = (int)(ViewBag.TotalEstudiantes ?? 0);
+    var puedeEliminar = totalCursos == 0 && totalEstudiantes == 0;
+}
+
+<h1 class="titulo mb-3">Eliminar carrera</h1>
+<div class="card-panel">
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Código</dt><dd class="col-sm-9">@Model.Codigo</dd>
+        <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9">@Model.Nombre</dd>
+        <dt class="col-sm-3">Descripción</dt><dd class="col-sm-9">@Model.Descripcion</dd>
+        <dt class="col-sm-3">Cursos asociados</dt><dd class="col-sm-9">@totalCursos</dd>
+        <dt class="col-sm-3">Estudiantes</dt><dd class="col-sm-9">@totalEstudiantes</dd>
+    </dl>
+
+    @if (puedeEliminar)
+    {
+        <p class="fw-bold mt-3">¿Seguro que desea eliminar esta carrera?</p>
+        <form asp-action="Delete" method="post" class="d-flex gap-2">
+            <input type="hidden" asp-for="Id" />
+            <a asp-action="Index" class="btn btn-secundario">Cancelar</a>
+            <button type="submit" class="btn btn-danger fw-bold">Sí, eliminar</button>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-3 mb-3">⚠ No se puede eliminar una carrera que tenga cursos o estudiantes asociados.</div>
+        <a asp-action="Index" class="btn btn-secundario">Volver a la lista</a>
+    }
+</div>

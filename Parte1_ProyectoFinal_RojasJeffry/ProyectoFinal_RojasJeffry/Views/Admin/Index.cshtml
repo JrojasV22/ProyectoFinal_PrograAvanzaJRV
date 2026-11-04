@@ -1,0 +1,66 @@
+@model PanelViewModel
+@{
+    ViewData["Title"] = "Panel de administración";
+}
+
+<h1 class="titulo mb-3">Panel de administración</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card-dato h-100">
+            <div class="numero">@Model.TotalCarreras</div>
+            <div class="etiqueta mb-2">Carreras</div>
+            <a class="btn btn-secundario btn-sm w-100" asp-controller="Carreras" asp-action="Index">Gestionar</a>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card-dato h-100">
+            <div class="numero">@Model.TotalCursos</div>
+            <div class="etiqueta mb-2">Cursos</div>
+            <a class="btn btn-secundario btn-sm w-100" asp-controller="Cursos" asp-action="Index">Gestionar</a>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card-dato h-100">
+            <div class="numero">@Model.TotalDocentes</div>
+            <div class="etiqueta mb-2">Docentes</div>
+            <a class="btn btn-secundario btn-sm w-100" asp-controller="Docentes" asp-action="Index">Gestionar</a>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card-dato h-100">
+            <div class="numero">@Model.TotalEstudiantes</div>
+            <div class="etiqueta mb-2">Estudiantes</div>
+            <span class="btn btn-secundario btn-sm w-100 disabled" title="Disponible en la entrega final">Ver</span>
+        </div>
+    </div>
+</div>
+
+<h2 class="subtitulo">Ocupación de cursos</h2>
+<div class="table-responsive">
+    <table class="table tabla-sistema align-middle">
+        <thead>
+            <tr>
+                <th>Curso</th>
+                <th>Carrera</th>
+                <th>Docente</th>
+                <th class="text-center">Ocupación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fila in Model.Ocupacion)
+            {
+                <tr>
+                    <td>@fila.Curso</td>
+                    <td>@fila.Carrera</td>
+                    <td class="@(fila.Docente == "Sin asignar" ? "text-danger fst-italic" : "")">@fila.Docente</td>
+                    <td class="text-center">@fila.Matriculados / @fila.Cupo</td>
+                </tr>
+            }
+            @if (!Model.Ocupacion.Any())
+            {
+                <tr><td colspan="4" class="text-muted text-center">Todavía no hay cursos registrados.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

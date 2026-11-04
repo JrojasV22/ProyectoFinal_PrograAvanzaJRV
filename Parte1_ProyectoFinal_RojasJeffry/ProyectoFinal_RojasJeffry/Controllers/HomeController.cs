@@ -15,7 +15,7 @@ namespace ProyectoFinal_RojasJeffry.Controllers
             _db = db;
         }
 
-        // Página de entrada, envía a cada usuario a la pantalla que le corresponde según su rol.
+        // Página de entrada: envía a cada usuario a la pantalla que le corresponde según su rol.
         public IActionResult Index()
         {
             if (User.Identity?.IsAuthenticated != true)
@@ -28,7 +28,11 @@ namespace ProyectoFinal_RojasJeffry.Controllers
                 return RedirectToAction("Inicio", "Estudiante");
             }
 
-            // Administrador: el panel de administración se agrega en la siguiente parte del proyecto.
+            if (User.IsInRole(Roles.Administrador))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             return View();
         }
 

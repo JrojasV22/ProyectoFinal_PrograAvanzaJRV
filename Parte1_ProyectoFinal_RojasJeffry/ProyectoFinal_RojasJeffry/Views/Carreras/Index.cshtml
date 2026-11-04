@@ -1,0 +1,65 @@
+@model ListaPaginada<Carrera>
+@{
+    ViewData["Title"] = "Carreras";
+    var buscar = ViewData["Buscar"] as string;
+}
+
+<div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+    <h1 class="titulo m-0 me-auto">Carreras</h1>
+    <form asp-action="Index" method="get" class="d-flex gap-2">
+        <input type="search" name="buscar" value="@buscar" class="form-control" placeholder="Buscar por nombre o código" />
+        <button type="submit" class="btn btn-primario">Buscar</button>
+    </form>
+    <a asp-action="Create" class="btn btn-dorado">+ Nueva carrera</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table tabla-sistema align-middle">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var carrera in Model.Elementos)
+            {
+                <tr>
+                    <td>@carrera.Codigo</td>
+                    <td>@carrera.Nombre</td>
+                    <td>@carrera.Descripcion</td>
+                    <td class="text-center text-nowrap">
+                        <a asp-action="Edit" asp-route-id="@carrera.Id">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@carrera.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Elementos.Any())
+            {
+                <tr><td colspan="4" class="text-muted text-center">No se encontraron carreras.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.TotalPaginas > 1)
+{
+    <nav aria-label="Paginación de carreras">
+        <ul class="pagination">
+            <li class="page-item @(Model.TieneAnterior ? "" : "disabled")">
+                <a class="page-link" asp-action="Index" asp-route-buscar="@buscar" asp-route-pagina="@(Model.Pagina - 1)">«</a>
+            </li>
+            @for (var i = 1; i <= Model.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.Pagina ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-buscar="@buscar" asp-route-pagina="@i">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.TieneSiguiente ? "" : "disabled")">
+                <a class="page-link" asp-action="Index" asp-route-buscar="@buscar" asp-route-pagina="@(Model.Pagina + 1)">»</a>
+            </li>
+        </ul>
+    </nav>
+}
