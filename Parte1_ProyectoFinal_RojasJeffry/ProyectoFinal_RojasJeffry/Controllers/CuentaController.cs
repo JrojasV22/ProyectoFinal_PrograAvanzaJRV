@@ -10,7 +10,7 @@ using ProyectoFinal_RojasJeffry.ViewModels;
 
 namespace ProyectoFinal_RojasJeffry.Controllers
 {
-    
+    // Registro, inicio y cierre de sesión con ASP.NET Core Identity (HU-01, HU-02, HU-03, HU-09).
     [AllowAnonymous]
     public class CuentaController : Controller
     {

@@ -1,0 +1,67 @@
+@model ListaPaginada<Curso>
+
+<div class="table-responsive">
+    <table class="table tabla-sistema align-middle">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Curso</th>
+                <th class="text-center">Créd.</th>
+                <th>Tipo</th>
+                <th>Carrera</th>
+                <th>Docente</th>
+                <th class="text-center">Cupo</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var curso in Model.Elementos)
+            {
+                <tr>
+                    <td>@curso.Codigo</td>
+                    <td>@curso.Nombre</td>
+                    <td class="text-center">@curso.Creditos</td>
+                    <td>@curso.Tipo</td>
+                    <td>@curso.Carrera?.Codigo</td>
+                    @if (curso.Docente != null)
+                    {
+                        <td>@curso.Docente.NombreCompleto</td>
+                    }
+                    else
+                    {
+                        <td class="text-danger fst-italic">Sin asignar</td>
+                    }
+                    <td class="text-center">@curso.Cupo</td>
+                    <td class="text-center text-nowrap">
+                        <a asp-controller="Cursos" asp-action="Edit" asp-route-id="@curso.Id">Editar</a> |
+                        <a asp-controller="Cursos" asp-action="Delete" asp-route-id="@curso.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Elementos.Any())
+            {
+                <tr><td colspan="8" class="text-muted text-center">Esta carrera todavía no tiene cursos.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.TotalPaginas > 1)
+{
+    <nav aria-label="Paginación de cursos">
+        <ul class="pagination">
+            <li class="page-item @(Model.TieneAnterior ? "" : "disabled")">
+                <a class="page-link" href="#" data-pagina="@(Model.Pagina - 1)">«</a>
+            </li>
+            @for (var i = 1; i <= Model.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.Pagina ? "active" : "")">
+                    <a class="page-link" href="#" data-pagina="@i">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.TieneSiguiente ? "" : "disabled")">
+                <a class="page-link" href="#" data-pagina="@(Model.Pagina + 1)">»</a>
+            </li>
+        </ul>
+    </nav>
+}

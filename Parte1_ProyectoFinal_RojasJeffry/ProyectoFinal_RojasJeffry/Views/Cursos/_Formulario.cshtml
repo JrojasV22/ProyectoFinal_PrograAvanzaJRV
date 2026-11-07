@@ -1,0 +1,47 @@
+@model Curso
+
+<div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+<div class="row g-3">
+    <div class="col-md-4">
+        <label asp-for="Codigo" class="form-label fw-bold"></label>
+        <input asp-for="Codigo" class="form-control" placeholder="SC-302" />
+        <span asp-validation-for="Codigo" class="text-danger small"></span>
+    </div>
+    <div class="col-md-8">
+        <label asp-for="Nombre" class="form-label fw-bold"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Creditos" class="form-label fw-bold"></label>
+        <input asp-for="Creditos" class="form-control" min="1" max="4" />
+        <span asp-validation-for="Creditos" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Tipo" class="form-label fw-bold"></label>
+        <select asp-for="Tipo" asp-items="ViewBag.Tipos" class="form-select">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span asp-validation-for="Tipo" class="text-danger small"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Cupo" class="form-label fw-bold"></label>
+        <input asp-for="Cupo" class="form-control" min="1" max="100" />
+        <span asp-validation-for="Cupo" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="CarreraId" class="form-label fw-bold"></label>
+        <select asp-for="CarreraId" asp-items="ViewBag.Carreras" class="form-select">
+            <option value="">-- Seleccione una carrera --</option>
+        </select>
+        <span asp-validation-for="CarreraId" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Horario" class="form-label fw-bold"></label>
+        <input asp-for="Horario" class="form-control" placeholder="Lunes 18:00 - 21:00" />
+        <span asp-validation-for="Horario" class="text-danger small"></span>
+    </div>
+</div>
+<p class="text-danger small fst-italic mt-3 mb-0">* Los créditos y el cupo deben ser mayores que cero. El docente se asigna desde la pantalla de docentes.</p>

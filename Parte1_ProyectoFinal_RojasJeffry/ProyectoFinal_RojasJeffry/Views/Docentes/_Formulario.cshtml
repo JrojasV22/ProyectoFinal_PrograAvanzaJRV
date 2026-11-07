@@ -1,0 +1,25 @@
+@model Docente
+
+<div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+<div class="row g-3">
+    <div class="col-md-4">
+        <label asp-for="Cedula" class="form-label fw-bold"></label>
+        <input asp-for="Cedula" class="form-control" placeholder="1-1111-2222" />
+        <span asp-validation-for="Cedula" class="text-danger small"></span>
+    </div>
+    <div class="col-md-8">
+        <label asp-for="NombreCompleto" class="form-label fw-bold"></label>
+        <input asp-for="NombreCompleto" class="form-control" />
+        <span asp-validation-for="NombreCompleto" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Correo" class="form-label fw-bold"></label>
+        <input asp-for="Correo" class="form-control" placeholder="docente@matriculau.com" />
+        <span asp-validation-for="Correo" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Especialidad" class="form-label fw-bold"></label>
+        <input asp-for="Especialidad" class="form-control" />
+        <span asp-validation-for="Especialidad" class="text-danger small"></span>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Cursos";
+    var carreraId = ViewData["CarreraId"] as int?;
+}
+
+<div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+    <h1 class="titulo m-0">Cursos</h1>
+    <div class="d-flex align-items-center gap-2 me-auto">
+        <label for="filtroCarrera" class="fw-bold">Carrera:</label>
+        <select id="filtroCarrera" class="form-select" asp-items="ViewBag.Carreras">
+            <option value="">Todas las carreras</option>
+        </select>
+    </div>
+    <a id="nuevoCurso" asp-action="Create" asp-route-carreraId="@carreraId" class="btn btn-dorado">+ Nuevo curso</a>
+</div>
+
+<!-- La tabla se carga y se actualiza con AJAX (acción Tabla) -->
+<div id="tablaCursos">
+    <p class="text-muted">Cargando cursos...</p>
+</div>
+<p class="text-muted small fst-italic">Al cambiar la carrera del filtro, la tabla se actualiza por AJAX sin recargar la página.</p>
+
+@section Scripts {
+    <script>
+        // HU-11: filtro por carrera con AJAX. Se pide la vista parcial _Tabla y se reemplaza el contenido.
+        function cargarTabla(pagina) {
+            var carreraId = $('#filtroCarrera').val();
+            $.get('@Url.Action("Tabla")', { carreraId: carreraId, pagina: pagina || 1 })
+                .done(function (html) { $('#tablaCursos').html(html); })
+                .fail(function () { $('#tablaCursos').html('<p class="text-danger">No se pudieron cargar los cursos.</p>'); });
+
+            // El botón "Nuevo curso" propone la carrera que está filtrada.
+            var url = '@Url.Action("Create")' + (carreraId ? '?carreraId=' + carreraId : '');
+            $('#nuevoCurso').attr('href', url);
+        }
+
+        $('#filtroCarrera').on('change', function () { cargarTabla(1); });
+
+        // Paginación dentro de la tabla (los enlaces se crean en la vista parcial).
+        $('#tablaCursos').on('click', '[data-pagina]', function (e) {
+            e.preventDefault();
+            cargarTabla($(this).data('pagina'));
+        });
+
+        $(function () { cargarTabla(1); });
+    </script>
+}

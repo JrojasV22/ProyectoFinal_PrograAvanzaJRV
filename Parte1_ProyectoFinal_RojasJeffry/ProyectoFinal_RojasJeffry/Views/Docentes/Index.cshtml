@@ -1,0 +1,66 @@
+@model ListaPaginada<Docente>
+@{
+    ViewData["Title"] = "Docentes";
+}
+
+<div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+    <h1 class="titulo m-0 me-auto">Docentes</h1>
+    <a asp-action="Create" class="btn btn-dorado">+ Nuevo docente</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table tabla-sistema align-middle">
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre completo</th>
+                <th>Correo</th>
+                <th>Especialidad</th>
+                <th class="text-center">Cursos</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var docente in Model.Elementos)
+            {
+                <tr>
+                    <td>@docente.Cedula</td>
+                    <td>@docente.NombreCompleto</td>
+                    <td>@docente.Correo</td>
+                    <td>@docente.Especialidad</td>
+                    <td class="text-center">@docente.Cursos.Count</td>
+                    <td class="text-center text-nowrap">
+                        <a asp-action="Edit" asp-route-id="@docente.Id">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@docente.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Elementos.Any())
+            {
+                <tr><td colspan="6" class="text-muted text-center">Todavía no hay docentes registrados.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="alert alert-warning small">⚠ No se puede eliminar un docente que tenga cursos asignados.</div>
+
+@if (Model.TotalPaginas > 1)
+{
+    <nav aria-label="Paginación de docentes">
+        <ul class="pagination">
+            <li class="page-item @(Model.TieneAnterior ? "" : "disabled")">
+                <a class="page-link" asp-action="Index" asp-route-pagina="@(Model.Pagina - 1)">«</a>
+            </li>
+            @for (var i = 1; i <= Model.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.Pagina ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-pagina="@i">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.TieneSiguiente ? "" : "disabled")">
+                <a class="page-link" asp-action="Index" asp-route-pagina="@(Model.Pagina + 1)">»</a>
+            </li>
+        </ul>
+    </nav>
+}
